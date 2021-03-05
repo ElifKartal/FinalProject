@@ -31,13 +31,13 @@ namespace Business.Concrete
             
         }
         //claim
-        [SecuredOperation("product.add")]
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {   //business codes
             
             IResult result=BusinessRules.Run(CheckIfProductNameExist(product.ProductName),
-                CheckIfProductCountOfCategoryCorrect(product.CategoryId));
+                CheckIfProductCountOfCategoryCorrect(product.CategoryId),CheckIfCategoryLimitExceded());
            
             if (result!=null)
             {
@@ -108,7 +108,7 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
-        private IResult CheckIfCatgoryLimitExceded()
+        private IResult CheckIfCategoryLimitExceded()
         {
             var result = _categoryService.GetAll();
             if (result.Data.Count>15)
