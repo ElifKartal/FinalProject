@@ -56,7 +56,7 @@ namespace Core.Extensions
             {
                 StatusCode = httpContext.Response.StatusCode,
                 Message = message
-            }.ToString());
+            }.ToString());  
         }
     }
 }
